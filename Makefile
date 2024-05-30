@@ -14,6 +14,13 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 #
+# Build and run the executable withj gdb
+#
+debug: executable
+	gdb -ix gdb_init.txt $(BUILD_DIR)/aws
+
+
+#
 # Ensures that the build directory exists
 #
 build_dir: $(BUILD_DIR)
@@ -24,6 +31,6 @@ $(BUILD_DIR):
 # Assemble executable
 #
 executable: $(BUILD_DIR)/aws
-$(BUILD_DIR)/aws: build_dir $(SRC_DIR)/*.asm $(SRC_DIR)/**/*.asm $(SRC_DIR)/**/**/*.asm
-	$(ASM) -i$(SRC_DIR)/ $(SRC_DIR)/main.asm -f elf64 -o $(BUILD_DIR)/aws.o
+$(BUILD_DIR)/aws: build_dir $(SRC_DIR)/*.asm 
+	$(ASM) -g -i$(SRC_DIR)/ $(SRC_DIR)/main.asm -f elf64 -o $(BUILD_DIR)/aws.o
 	$(LD) -o $(BUILD_DIR)/aws $(BUILD_DIR)/aws.o 
